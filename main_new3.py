@@ -6,7 +6,6 @@ prev_selected_index = None
 last_clicked_button = None
 chosen_button_name = None
 priladka = 0
-
 def show_buttons():
     for i, button1 in enumerate(initial_buttons):
         button1 = tk.Button(root, text=button1, command=lambda name=button1: (on_button_click(name), print(name)))
@@ -207,6 +206,11 @@ def copy_text():
     root.clipboard_clear()  # Очищаем буфер обмена
     root.clipboard_append(label_result2['text'])  # Копируем текст в буфер обмена
 
+def button_clicked(height, width):
+    entry_h.delete(0, tk.END) # очищаем содержимое Entry виджетов
+    entry_w.delete(0, tk.END)
+    entry_h.insert(0, height) # вставляем значения высоты и ширины в Entry виджеты
+    entry_w.insert(0, width)
 
 root = tk.Tk()
 root.title("Просчет для фирмы Яскравий друк")
@@ -456,6 +460,30 @@ quantity_paper.place(x=1100, y=50, anchor="w")
 button_copy = tk.Button(root, text='Копировать', command=copy_text)
 button_copy.pack()
 button_copy.place(x=410, y=270, anchor="w")
+
+button_a3 = tk.Button(root, text="A3", command=lambda: button_clicked(297, 420))
+button_a3.pack()
+button_a3.place(x=200, y=20, anchor="w")
+
+button_a4 = tk.Button(root, text="A4", command=lambda: button_clicked(210, 297))
+button_a4.pack()
+button_a4.place(x=230, y=20, anchor="w")
+
+button_a5 = tk.Button(root, text="A5", command=lambda: button_clicked(148, 210))
+button_a5.pack()
+button_a5.place(x=260, y=20, anchor="w")
+
+button_a6 = tk.Button(root, text="A3", command=lambda: button_clicked(105, 148))
+button_a6.pack()
+button_a6.place(x=290, y=20, anchor="w")
+
+button_a7 = tk.Button(root, text="A4", command=lambda: button_clicked(74, 105))
+button_a7.pack()
+button_a7.place(x=320, y=20, anchor="w")
+
+button_a8 = tk.Button(root, text="A5", command=lambda: button_clicked(52, 74))
+button_a8.pack()
+button_a8.place(x=350, y=20, anchor="w")
 
 show_buttons()
 root.mainloop()
