@@ -1,6 +1,6 @@
 import tkinter as tk
 import math
-
+from paper_prices_dict import initial_buttons, cutting, prices_color,laminations
 prev_selected_index0 = None
 prev_selected_index = None
 last_clicked_button = None
@@ -58,7 +58,6 @@ def on_button_click(button_name):
         button.configure(bg="grey")
     update_price_label()
 
-
 def button_click(quantity, lamination, my_button):
     global price3, last_clicked_button
     global lamination_name
@@ -76,12 +75,10 @@ def button_click(quantity, lamination, my_button):
         # Сохраняем ссылку на последнюю нажатую кнопку
         last_clicked_button = my_button
 
-
 def change_color(btn):
     for button in buttons_cut.values():
         button.configure(bg=root.cget("bg"))  # изменяем цвет фона предыдущей нажатой кнопки на изначальный
     btn.configure(bg='grey')  # задаем серый цвет фона для выбранной кнопки
-
 
 def change_price(new_price, service, label, buttons):
     label.config(text=f"{service}: {new_price} грн")
@@ -89,7 +86,6 @@ def change_price(new_price, service, label, buttons):
         if btn == tk.Button:
             btn.config(text=key)
     buttons[service].config(text=f"{service}: {new_price} грн")
-
 
 def calculate_price(color, quantity):
     if color in prices_color:
@@ -99,7 +95,6 @@ def calculate_price(color, quantity):
                 return v
     return None
 
-
 def calculate_price2(quantity, price_dict):
     if quantity < 1:
         return "Тираж меньше 1"
@@ -108,10 +103,8 @@ def calculate_price2(quantity, price_dict):
         if int(range_start) <= quantity <= int(range_end):
             return price2
 
-
 def update_price_label():
     price_label.configure(text="Цена- " + str(price) + " грн.")
-
 
 def on_button_click_color(color):
     global prev_selected_index0
@@ -135,7 +128,6 @@ def on_button_click_color(color):
             result_label.config(text="Неверный ввод.")
     else:
         result_label.config(text="Введите количество.")
-
 
 def calculate():
     try:
@@ -174,7 +166,6 @@ def calculate():
     except ValueError:
         label_result.config(text='Не выбрали Тираж')
 
-
 def calculate2():
     try:
         global price3
@@ -201,7 +192,6 @@ def toggle_priladka():
     priladka = 15
     priladka_button.config(bg="gray", state=tk.DISABLED)
 
-
 def copy_text():
     root.clipboard_clear()  # Очищаем буфер обмена
     root.clipboard_append(label_result2['text'])  # Копируем текст в буфер обмена
@@ -220,153 +210,8 @@ root.resizable(False, False)
 buttons = []
 color_buttons = []
 buttons_cut = {}
-initial_buttons = {
-    "офсетная 80 г/м2 (SR АЗ/А3}": 1,
-    "офсетная SR АЗ 120 г/м2": 1.50,
-    "офсетная 190 г/м2 (SR АЗ / АЗ)": 2.50,
-    "мункен белый/кремовый 90 г/м2": 1.50,
-    "мункен кремовый 150 г/м2": 2.60,
-    "мелованная 130 г/м2": 1.65,
-    "мелованная 150 г/м2": 1.90,
-    "мелованная 170 г/м2": 2.15,
-    "мелованная 200 г/м2": 2.60,
-    "мелованная 250 г/м2": 3.20,
-    "мелованная 300 г/м2": 3.80,
-    "мелованная 350 г/м2": 4.50,
-    "Самоклейка бумага": 4.5,
-    "Самоклейка бумага усиленная ": 5.5,
-    "пленка Вйгата матовая": 22.0,
-    "Самоклейка пленка JАС": 24.0,
-    "Офсетный Лен 235 г/м2": 9.0,
-    "Дизайнерский Лен 250 г/м2": 30.0,
-    "Маджестик 290 г/м2": 45.0,
-    "Колотех 300-350 г/м2": 17.0,
-    "tintoretto": 30.0,
-    "Sirio Tella Bruno": 35.0,
-    "картон 280 г/м2": 5.3,
-    "Plike-Ispira 330 г/м2": 60.0,
-    "Creative Board 270 г/м2": 30.0,
-    "Creative Board Black 120 г/м2": 8.5,
-}
-cutting = {
-    "Без порезки": 0,
-    "Порезка за изделие, минимально 15 грн": 0.1,
-    # "Биговка за изделие, минимально 15 грн": 0.5,
-    # "Перфорация за изделие, минимально 25 грн": 0.7,
-    # "Переплет на скобы за 1 скобу, минимально 15,00 грн": 1.0,
-    # "Склейка на 2-х сторонний скотч (клапан до 6 см)": 1.0,
-    # "Склейка на 2-х сторонний скотч (клапан более 6 см)": 1.75,
-    # "Склейка на 2-х сторонний скотч усиленный 1 клапан": 4.0,
-    # "Пересборка меню(разобрать+собрать на болты)": 25.0,
-    # Пересборка брошюры (замена пружины, скобы и т.д.)": 20.0,
-    # "Фальцовка за изделие, минимально 10 грн": 0.2,
-    # "Листоподборка за изделие": 0.15,
-    # Дырокол ручной за каждое отверстие": 0.40,
-    # Пробойник Европетля": 0.75,
-    # "Болт или кольцо до 40мм с учетом сверления": 15.0,
-    # "Ригель с учетом пробоя": 15.0,
-}
-prices_color = {
-    "цветная односторонняя (4+0)": {
-        "1-4": 15,
-        "5-9": 10,
-        "10-24": 7,
-        "25-49": 6.50,
-        "50-99": 6,
-        "100-199": 5.0,
-        "200-299": 4.75,
-        "300-500": 4.50,
-        "500-1000": 4,
-        "1000-10000": 3.5,
-    },
-    "цветная двусторонняя (4+4)": {
-        "1-4": 30,
-        "5-9": 20,
-        "10-24": 14,
-        "25-49": 13,
-        "50-99": 12,
-        "100-199": 10,
-        "200-299": 9.5,
-        "300-500": 9,
-        "500-1000": 8,
-        "1000-10000": 7,
-    },
-    "черно белая односторонняя SPAЗ (1+0)": {
-        "1-4": 8,
-        "5-9": 5,
-        "10-24": 3.5,
-        "25-49": 3,
-        "50-99": 2.5,
-        "100-199": 2.25,
-        "200-299": 2,
-        "300-500": 2,
-        "500-1000": 2,
-        "1000-10000": 1.5,
-    },
-    "черно белая двусторонняя SPA (1+1)": {
-        "1-4": 16,
-        "5-9": 10,
-        "10-24": 7,
-        "25-49": 6,
-        "50-99": 5,
-        "100-199": 4.5,
-        "200-299": 4,
-        "300-500": 4,
-        "500-1000": 4,
-        "1000-10000": 3,
-    }
-}
-laminations = {
-    "Без ламинации": {
-        "1-5": 0,
-        "6-20": 0,
-        "21-50": 0,
-        "51-100": 0,
-        "101-200": 0,
-        "200-300": 0,
-        "300-1000": 0,
-    },
-    "Глянцевая 25мк(1+0)": {
-        "1-5": 50,
-        "6-20": 7,
-        "21-50": 5.5,
-        "51-100": 4.50,
-        "101-200": 4,
-        "200-300": 3.8,
-        "300-1000": 3.6,
-    },
-    "Матовая 25мк(1+0)": {
-        "1-5": 60,
-        "6-20": 8,
-        "21-50": 6.2,
-        "51-100": 5.0,
-        "101-200": 4.5,
-        "200-300": 4.2,
-        "300-1000": 4.0,
-    },
-    "Soft Touch 28мк(1+0)": {
-        "1-5": 70,
-        "6-20": 11,
-        "21-50": 10.5,
-        "51-100": 10,
-        "101-200": 9.5,
-        "200-300": 9.25,
-        "300-1000": 9,
-    },
-    "Матовая 31мк Antiscuff(1+0)": {
-        "1-5": 70,
-        "6-20": 10,
-        "21-50": 8.5,
-        "51-100": 7.5,
-        "101-200": 6.5,
-        "200-300": 6.25,
-        "300-1000": 6,
-    },
-}
+
 result = 0
-back_button = tk.Button(root, text="Назад", width=20, height=0)
-back_button.pack()
-back_button.place(x=1600, y=0, anchor="ne")
 
 label_w = tk.Label(root, text='Введите размер мм:')
 label_w.pack()
