@@ -1,10 +1,28 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>T</title>
+    <title>Яскравий Друк</title>
+    <style>
+    body {
+        margin: 0;
+        position: relative; /* Добавляем позиционирование relative для body */
+    }
+    img {
+        position: absolute; /* Добавляем позиционирование absolute для обоих изображений */
+    }
+    .bg-image {
+        width: 100%;
+        height: auto;
+    }
+    img:first-child {
+        z-index: 1; /* Устанавливаем большее значение z-index для первого изображения */
+    }
+    </style>
 </head>
 <body>
-<h1>"TTTTTTTTTTT"</h1>
+    <img src="{% static 'images/лого1.png' %}" alt="Your Image1">
+    <img src="{% static 'images/13.jpg' %}" alt="Your Image" class="bg-image">
 </body>
-</html>я
+</html>
