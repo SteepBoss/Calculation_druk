@@ -1,10 +1,33 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>T</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Яскравий Друк</title>
+    <style>
+        body {
+            margin: 0;
+            position: relative;
+        }
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            z-index: -1;
+            filter: brightness(40%); # Затемнение фона
+        }
+        img:first-child {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    </style>
 </head>
 <body>
-<h1>"TTTTTTTTTTT"</h1>
+    <img src="{% static 'images/лого1.png' %}" alt="Your Image1">
+    <img src="{% static 'images/14.jpg' %}" alt="Your Image" class="bg-image">
 </body>
-</html>я
+</html>
