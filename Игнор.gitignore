@@ -1,0 +1,10 @@
+/venv/
+/.idea/
+/.idea/misc.xml
+/.idea/dataSources.xml
+*.iml
+
+/tests/.pytest_cache/
+/tests/test_data.csv
+/tests/test_data.json
+/__pycache__/

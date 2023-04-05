@@ -12,7 +12,7 @@ chosen_button_name = None
 priladka = 0
 def show_buttons():
     for i, button1 in enumerate(initial_buttons):
-        button1 = tk.Button(root, text=button1, command=lambda name=button1: (on_button_click(name), print(name)))
+        button1 = tk.Button(root, text=button1, command=lambda name=button1: (on_button_click(name),))
         button1.pack()
         button1.place(x=200, y=70 + i * 20, width=200, height=20)
         buttons.append(button1)
@@ -24,7 +24,7 @@ def show_buttons():
         buttons2.append(button2)
         button2.configure(
             command=lambda lamination_name=lamination_name, lamination_dict=lamination_dict, my_button=button2: (
-                print(lamination_name), button_click(int(tirazh_entry.get()), lamination_dict, my_button)))
+                button_click(int(tirazh_entry.get()), lamination_dict, my_button)))
     button_click(int(tirazh_entry.get()), laminations["Без ламинации"], buttons2[0])
     for i, (service, price2) in enumerate(cutting.items()):
         btn = tk.Button(root, text=service, command=lambda p=price2, s=service, b=buttons_cut: change_price(p, s, b))
@@ -32,15 +32,15 @@ def show_buttons():
         btn.place(x=700, y=70 + i * 20, width=350, height=20)
         buttons_cut[service] = btn
         btn.bind('<Button-1>', lambda event, b=btn: change_color(b))
+
         def on_button_click2(price2, service):
             price_var.set(float(price2))
             price_label2.config(text=f"Выбрана услуга:\n{service}, \nцена: {price_var.get()} грн",
                                 justify='left')
+
         btn.config(command=lambda p=price2, s=service: on_button_click2(p, s))
     buttons_cut["Порезка за изделие, минимально 15 грн"].invoke()
-    if service == "Порезка за изделие, минимально 15 грн":
-        btn.invoke()
-        change_color(btn)
+    change_color(buttons_cut["Порезка за изделие, минимально 15 грн"])
     for i, color in enumerate(prices_color.keys()):
         button = tk.Button(root, text=color)
         button.pack()
@@ -126,7 +126,6 @@ def on_button_click_color(color):
         try:
             quantity = int(quantity_str)
             price2 = calculate_price(color, quantity)
-            print(price2)
             if price2 is not None:
                 result_label.config(text=f"Цена: {price2} грн.")
             else:
@@ -158,11 +157,6 @@ def calculate():
             total = total2
         quantity = int(entry_quantity.get())
         result = math.ceil(quantity / total)
-        print(f"{quantity}-quantity")
-        print(f"{total}-total")
-        print(f"{result}-result")
-        print(f"{total}-total")
-
         label_result.config(
             text=f'Результат: \nИзделий на 1 А3- {total} , \nТираж- {quantity}, \nКоличество А3 - '
                  f'{result}',
@@ -173,8 +167,6 @@ def calculate():
 def calculate2():
     try:
         global price3
-        print(f"{quantity}-quantity")
-        print(f"{price3}-price3")
         total_price = round(result * price, 1)
         total_price2 = round(result * price2, 2)
         price_var_str = price_var.get()
@@ -308,7 +300,7 @@ label_result2.place(x=500, y=250, anchor="w")
 
 priladka_button = tk.Button(root, text="+Приладка 15грн", command=toggle_priladka)
 priladka_button.pack()
-priladka_button.place(x=700, y=150, anchor="w")
+priladka_button.place(x=700, y=200, anchor="w")
 
 tirazh_entry = tk.Entry(root)
 tirazh_entry.pack()
@@ -347,15 +339,15 @@ button_a5 = tk.Button(root, text="A5", command=lambda: button_clicked(148, 210))
 button_a5.pack()
 button_a5.place(x=260, y=20, anchor="w")
 
-button_a6 = tk.Button(root, text="A3", command=lambda: button_clicked(105, 148))
+button_a6 = tk.Button(root, text="A6", command=lambda: button_clicked(105, 148))
 button_a6.pack()
 button_a6.place(x=290, y=20, anchor="w")
 
-button_a7 = tk.Button(root, text="A4", command=lambda: button_clicked(74, 105))
+button_a7 = tk.Button(root, text="A7", command=lambda: button_clicked(74, 105))
 button_a7.pack()
 button_a7.place(x=320, y=20, anchor="w")
 
-button_a8 = tk.Button(root, text="A5", command=lambda: button_clicked(52, 74))
+button_a8 = tk.Button(root, text="A8", command=lambda: button_clicked(52, 74))
 button_a8.pack()
 button_a8.place(x=350, y=20, anchor="w")
 canvas.pack()
