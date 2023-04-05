@@ -32,15 +32,15 @@ def show_buttons():
         btn.place(x=700, y=70 + i * 20, width=350, height=20)
         buttons_cut[service] = btn
         btn.bind('<Button-1>', lambda event, b=btn: change_color(b))
+
         def on_button_click2(price2, service):
             price_var.set(float(price2))
             price_label2.config(text=f"Выбрана услуга:\n{service}, \nцена: {price_var.get()} грн",
                                 justify='left')
+
         btn.config(command=lambda p=price2, s=service: on_button_click2(p, s))
     buttons_cut["Порезка за изделие, минимально 15 грн"].invoke()
-    if service == "Порезка за изделие, минимально 15 грн":
-        btn.invoke()
-        change_color(btn)
+    change_color(buttons_cut["Порезка за изделие, минимально 15 грн"])
     for i, color in enumerate(prices_color.keys()):
         button = tk.Button(root, text=color)
         button.pack()
@@ -300,7 +300,7 @@ label_result2.place(x=500, y=250, anchor="w")
 
 priladka_button = tk.Button(root, text="+Приладка 15грн", command=toggle_priladka)
 priladka_button.pack()
-priladka_button.place(x=700, y=150, anchor="w")
+priladka_button.place(x=700, y=200, anchor="w")
 
 tirazh_entry = tk.Entry(root)
 tirazh_entry.pack()
