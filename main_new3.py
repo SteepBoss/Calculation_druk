@@ -12,7 +12,7 @@ chosen_button_name = None
 priladka = 0
 def show_buttons():
     for i, button1 in enumerate(initial_buttons):
-        button1 = tk.Button(root, text=button1, command=lambda name=button1: (on_button_click(name), print(name)))
+        button1 = tk.Button(root, text=button1, command=lambda name=button1: (on_button_click(name),))
         button1.pack()
         button1.place(x=200, y=70 + i * 20, width=200, height=20)
         buttons.append(button1)
@@ -24,7 +24,7 @@ def show_buttons():
         buttons2.append(button2)
         button2.configure(
             command=lambda lamination_name=lamination_name, lamination_dict=lamination_dict, my_button=button2: (
-                print(lamination_name), button_click(int(tirazh_entry.get()), lamination_dict, my_button)))
+                button_click(int(tirazh_entry.get()), lamination_dict, my_button)))
     button_click(int(tirazh_entry.get()), laminations["Без ламинации"], buttons2[0])
     for i, (service, price2) in enumerate(cutting.items()):
         btn = tk.Button(root, text=service, command=lambda p=price2, s=service, b=buttons_cut: change_price(p, s, b))
@@ -126,7 +126,6 @@ def on_button_click_color(color):
         try:
             quantity = int(quantity_str)
             price2 = calculate_price(color, quantity)
-            print(price2)
             if price2 is not None:
                 result_label.config(text=f"Цена: {price2} грн.")
             else:
@@ -158,11 +157,6 @@ def calculate():
             total = total2
         quantity = int(entry_quantity.get())
         result = math.ceil(quantity / total)
-        print(f"{quantity}-quantity")
-        print(f"{total}-total")
-        print(f"{result}-result")
-        print(f"{total}-total")
-
         label_result.config(
             text=f'Результат: \nИзделий на 1 А3- {total} , \nТираж- {quantity}, \nКоличество А3 - '
                  f'{result}',
@@ -173,8 +167,6 @@ def calculate():
 def calculate2():
     try:
         global price3
-        print(f"{quantity}-quantity")
-        print(f"{price3}-price3")
         total_price = round(result * price, 1)
         total_price2 = round(result * price2, 2)
         price_var_str = price_var.get()
