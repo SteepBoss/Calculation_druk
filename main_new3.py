@@ -339,15 +339,15 @@ button_a5 = tk.Button(root, text="A5", command=lambda: button_clicked(148, 210))
 button_a5.pack()
 button_a5.place(x=260, y=20, anchor="w")
 
-button_a6 = tk.Button(root, text="A3", command=lambda: button_clicked(105, 148))
+button_a6 = tk.Button(root, text="A6", command=lambda: button_clicked(105, 148))
 button_a6.pack()
 button_a6.place(x=290, y=20, anchor="w")
 
-button_a7 = tk.Button(root, text="A4", command=lambda: button_clicked(74, 105))
+button_a7 = tk.Button(root, text="A7", command=lambda: button_clicked(74, 105))
 button_a7.pack()
 button_a7.place(x=320, y=20, anchor="w")
 
-button_a8 = tk.Button(root, text="A5", command=lambda: button_clicked(52, 74))
+button_a8 = tk.Button(root, text="A8", command=lambda: button_clicked(52, 74))
 button_a8.pack()
 button_a8.place(x=350, y=20, anchor="w")
 canvas.pack()
