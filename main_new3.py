@@ -1,6 +1,10 @@
 import tkinter as tk
 import math
+from tkinter import Canvas
+from PIL import Image, ImageTk
+from tkinter import NW
 from paper_prices_dict import initial_buttons, cutting, prices_color,laminations
+install_requires=['Pillow'],
 prev_selected_index0 = None
 prev_selected_index = None
 last_clicked_button = None
@@ -12,15 +16,16 @@ def show_buttons():
         button1.pack()
         button1.place(x=200, y=70 + i * 20, width=200, height=20)
         buttons.append(button1)
+    on_button_click("мелованная 350 г/м2")
     for i, (lamination_name, lamination_dict) in enumerate(laminations.items()):
         button2 = tk.Button(root, text=lamination_name)
         button2.pack()
         button2.place(x=1100, y=70 + i * 20, width=200, height=20)
-        buttons.append(button2)
+        buttons2.append(button2)
         button2.configure(
             command=lambda lamination_name=lamination_name, lamination_dict=lamination_dict, my_button=button2: (
                 print(lamination_name), button_click(int(tirazh_entry.get()), lamination_dict, my_button)))
-
+    button_click(int(tirazh_entry.get()), laminations["Без ламинации"], buttons2[0])
     for i, (service, price2) in enumerate(cutting.items()):
         btn = tk.Button(root, text=service, command=lambda p=price2, s=service, b=buttons_cut: change_price(p, s, b))
         btn.pack(anchor='w')
@@ -31,15 +36,18 @@ def show_buttons():
             price_var.set(float(price2))
             price_label2.config(text=f"Выбрана услуга:\n{service}, \nцена: {price_var.get()} грн",
                                 justify='left')
-
         btn.config(command=lambda p=price2, s=service: on_button_click2(p, s))
+    buttons_cut["Порезка за изделие, минимально 15 грн"].invoke()
+    if service == "Порезка за изделие, минимально 15 грн":
+        btn.invoke()
+        change_color(btn)
     for i, color in enumerate(prices_color.keys()):
         button = tk.Button(root, text=color)
         button.pack()
         button.place(x=430, y=70 + i * 20, width=240, height=20)
         color_buttons.append(button)
         button.bind('<Button-1>', lambda event, c=color: on_button_click_color(c))
-
+    on_button_click_color("цветная односторонняя (4+0)")
 def on_button_click(button_name):
     global price
     global prev_selected_index
@@ -59,8 +67,7 @@ def on_button_click(button_name):
     update_price_label()
 
 def button_click(quantity, lamination, my_button):
-    global price3, last_clicked_button
-    global lamination_name
+    global price3, last_clicked_button ,lamination_name
     lamination_name = my_button["text"]
     price3 = calculate_price2(quantity, lamination)
     price_label3.configure(text=f"Цена: {price3} грн")
@@ -155,10 +162,7 @@ def calculate():
         print(f"{total}-total")
         print(f"{result}-result")
         print(f"{total}-total")
-        quantity_entry.delete(0, tk.END)  # очищаем поле
-        quantity_entry.insert(0, result)  # вставляем значение
-        tirazh_entry.delete(0, tk.END)
-        tirazh_entry.insert(0, result)
+
         label_result.config(
             text=f'Результат: \nИзделий на 1 А3- {total} , \nТираж- {quantity}, \nКоличество А3 - '
                  f'{result}',
@@ -185,12 +189,18 @@ def calculate2():
             justify='left')
     except ValueError:
         label_result2.config(text='Не выбрали Тираж')
+    except NameError :
+        label_result2.config(text='Выберите все поля')
 
 
 def toggle_priladka():
     global priladka
-    priladka = 15
-    priladka_button.config(bg="gray", state=tk.DISABLED)
+    if priladka == 0:
+        priladka = 15
+        priladka_button.config(bg="gray")
+    else:
+        priladka = 0
+        priladka_button.config(bg="white")
 
 def copy_text():
     root.clipboard_clear()  # Очищаем буфер обмена
@@ -204,10 +214,21 @@ def button_clicked(height, width):
 
 root = tk.Tk()
 root.title("Просчет для фирмы Яскравий друк")
-root.geometry("{0}x{1}+0+0".format(root.winfo_screenwidth(), root.winfo_screenheight()))
+root.geometry("1400x800")
+root.update_idletasks()
+width = root.winfo_width()
+height = root.winfo_height()
+x = (root.winfo_screenwidth() // 2) - (width // 2)
+y = (root.winfo_screenheight() // 2) - (height // 2)
+root.geometry("{}x{}+{}+{}".format(width, height, x, y))
+canvas = Canvas(root, width=2000, height=2000)
+pil_image = Image.open("background_main.jpg")
+tk_image = ImageTk.PhotoImage(pil_image)
+canvas.create_image(0, 0, anchor=NW, image=tk_image)
+root.resizable(True, True)
 
-root.resizable(False, False)
 buttons = []
+buttons2 = []
 color_buttons = []
 buttons_cut = {}
 
@@ -218,32 +239,36 @@ label_w.pack()
 label_w.place(x=10, y=10, anchor="w")
 
 entry_w = tk.Entry(root)
+entry_w.insert(0,90)
 entry_w.pack()
-entry_w.place(x=150, y=20, anchor="ne")
+entry_w.place(x=75, y=20, anchor="ne",width=50, height=20)
 
 label_h = tk.Label(root, text='Введите размер в мм:')
 label_h.pack()
 label_h.place(x=10, y=60, anchor="w")
 
 entry_h = tk.Entry(root)
+entry_h.insert(0,50)
 entry_h.pack()
-entry_h.place(x=150, y=70, anchor="ne")
+entry_h.place(x=75, y=70, anchor="ne",width=50, height=20)
 
 quantity = tk.Label(root, text='Ввердите Тираж:')
 quantity.pack()
 quantity.place(x=10, y=110, anchor="w")
 
 entry_quantity = tk.Entry(root)
+entry_quantity.insert(0,100)
 entry_quantity.pack()
-entry_quantity.place(x=150, y=120, anchor="ne")
-
-button_calc = tk.Button(root, text='Рассчитать Количество А3', command=calculate)
-button_calc.pack()
-button_calc.place(x=170, y=150, anchor="ne")
+entry_quantity.place(x=75, y=120, anchor="ne",width=50, height=20)
 
 label_result = tk.Label(root, text='')
 label_result.pack()
 label_result.place(x=20, y=230, anchor="w")
+
+button_calc = tk.Button(root, text='Рассчитать Количество А3', command=calculate)
+button_calc.pack()
+button_calc.place(x=170, y=150, anchor="ne")
+button_calc.invoke()
 
 choice_paper = tk.Label(root, text='Выберите бумагу :')
 choice_paper.pack()
@@ -258,7 +283,6 @@ price_label2 = tk.Label(root, text="Выберите услугу")
 price_label2.pack()
 price_label2.place(x=700, y=30, anchor="w")
 
-# Создаем поле ввода количества
 quantity_label = tk.Label
 quantity_label = tk.Label(root)
 quantity_label.pack()
@@ -276,6 +300,7 @@ result_label.place(x=590, y=50, anchor="w")
 button_calc2 = tk.Button(root, text='Полный расчет', command=calculate2)
 button_calc2.pack()
 button_calc2.place(x=500, y=220, anchor="ne")
+
 
 label_result2 = tk.Label(root, text='')
 label_result2.pack()
@@ -306,6 +331,10 @@ button_copy = tk.Button(root, text='Копировать', command=copy_text)
 button_copy.pack()
 button_copy.place(x=410, y=270, anchor="w")
 
+button_calc2 = tk.Button(root, text='Полный расчет', command=calculate2)
+button_calc2.pack()
+button_calc2.place(x=500, y=220, anchor="ne")
+
 button_a3 = tk.Button(root, text="A3", command=lambda: button_clicked(297, 420))
 button_a3.pack()
 button_a3.place(x=200, y=20, anchor="w")
@@ -329,6 +358,7 @@ button_a7.place(x=320, y=20, anchor="w")
 button_a8 = tk.Button(root, text="A5", command=lambda: button_clicked(52, 74))
 button_a8.pack()
 button_a8.place(x=350, y=20, anchor="w")
+canvas.pack()
 
 show_buttons()
 root.mainloop()
