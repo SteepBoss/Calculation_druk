@@ -31,7 +31,7 @@
           top: 650px;
           left: 50%;
           transform: translateX(-50%);
-          transition: transform 0.3s ease-in-out;
+          transition: transform 0.3s ease-in-out; #изменятся плавно за 0.3 секунды с функцией перехода ease-in-out
         }
 
         .image_static:hover {
@@ -39,10 +39,26 @@
         }
 
         .image_write {
-            position: fixed;
-            top: 15px;
-            right: 15px;
+          position: fixed;
+          top: -500px;
+          right: 15px;
+          transition: transform 0.3s ease-in-out, top 2s ease-in-out;
+          animation: slide-down 1s ease-in-out forwards;
         }
+
+        .image_write:hover {
+          transform: scale(1.1);
+        }
+
+        @keyframes slide-down {
+          0% {
+            top: -50px;
+          }
+          100% {
+            top: 15px;
+          }
+        }
+
     </style>
 </head>
 <body>
