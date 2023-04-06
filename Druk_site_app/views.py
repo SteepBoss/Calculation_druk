@@ -6,5 +6,7 @@ def index(request):
 
 def registration(request):
     return render(request, 'Druk_site_app/registration.html')
+def write_us(request):
+    return render(request, 'Druk_site_app/write_us.html')
 
 
