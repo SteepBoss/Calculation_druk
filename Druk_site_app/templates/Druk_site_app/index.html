@@ -27,17 +27,38 @@
         }
 
         .image_static {
-            position: absolute;
-            top: 650px;
-            left: 50%;
-            transform: translateX(-50%);
+          position: absolute;
+          top: 650px;
+          left: 50%;
+          transform: translateX(-50%);
+          transition: transform 0.3s ease-in-out; #изменятся плавно за 0.3 секунды с функцией перехода ease-in-out
+        }
+
+        .image_static:hover {
+          transform: translateX(-50%) scale(1.1); #увеличивает статичную фотографию на 10%
         }
 
         .image_write {
-            position: fixed;
-            top: 15px;
-            right: 15px;
+          position: fixed;
+          top: -500px;
+          right: 15px;
+          transition: transform 0.3s ease-in-out, top 2s ease-in-out;
+          animation: slide-down 1s ease-in-out forwards;
         }
+
+        .image_write:hover {
+          transform: scale(1.1);
+        }
+
+        @keyframes slide-down {
+          0% {
+            top: -50px;
+          }
+          100% {
+            top: 15px;
+          }
+        }
+
     </style>
 </head>
 <body>
@@ -47,7 +68,7 @@
     </a>
     <img src="{% static 'images/1.jpg' %}" alt="Your Image" class="bg-image">
     <a href="/registration" class="image_static">
-    <img src="{% static 'images/cabinet.png' %}" alt="Your Image" >
+        <img src="{% static 'images/cabinet.png' %}" alt="Your Image" >
     </a>
 </body>
 </html>
