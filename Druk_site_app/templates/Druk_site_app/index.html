@@ -2,73 +2,107 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Яскравий Друк</title>
-    <style>
-        body {
-            margin: 0;
-            position: relative;
-        }
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Яскравий Друк</title>
+  <style>
+    body {
+      margin: 0;
+      position: relative;
+    }
 
-        .bg-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: auto;
-            z-index: -1;
-        }
+    .bg-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      z-index: -1;
+    }
 
-        .image {
-            position: fixed;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+    .image {
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
 
-        .image_static {
-          position: absolute;
-          top: 650px;
-          left: 50%;
-          transform: translateX(-50%);
-          transition: transform 0.3s ease-in-out; #изменятся плавно за 0.3 секунды с функцией перехода ease-in-out
-        }
+    .image_static {
+      position: absolute;
+      top: 650px;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: transform 0.3s ease-in-out; #изменятся плавно за 0.3 секунды с функцией перехода ease-in-out
+    }
 
-        .image_static:hover {
-          transform: translateX(-50%) scale(1.1); #увеличивает статичную фотографию на 10%
-        }
+    .image_static:hover {
+      transform: translateX(-50%) scale(1.1); #увеличивает статичную фотографию на 10%
+    }
 
-        .image_write {
-          position: fixed;
-          top: -500px;
-          right: 15px;
-          transition: transform 0.3s ease-in-out, top 2s ease-in-out;
-          animation: slide-down 1s ease-in-out forwards;
-        }
+    .image_write {
+      position: fixed;
+      top: -500px;
+      right: 15px;
+      transition: transform 0.3s ease-in-out, top 2s ease-in-out;
+      animation: slide-down 1s ease-in-out forwards;
+    }
 
-        .image_write:hover {
-          transform: scale(1.1);
-        }
+    .image_write:hover {
+      transform: scale(1.1);
+    }
 
-        @keyframes slide-down {
-          0% {
-            top: -50px;
-          }
-          100% {
-            top: 15px;
-          }
-        }
+    @keyframes slide-down {
+      0% {
+        top: -50px;
+      }
+      100% {
+        top: 15px;
+      }
+    }
+    .image-container {
+      width: 1920px;
+      height: 1080px;
+      position: relative;
+    }
 
-    </style>
+    .image-container img {
+      position: absolute;
+      top: 900px;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      max-width: 100%;
+      max-height: 100%;
+      transition: top 2s ease, left 2s ease, transform 0.5s ease;
+    }
+
+    .image-container img:hover {
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+  </style>
 </head>
 <body>
-    <img src="{% static 'images/2.png' %}" alt="Your Image" class="image">
-    <a href="/write_us" class="image_write">
-        <img src="{% static 'images/write_us.png' %}" alt="Your Image">
-    </a>
-    <img src="{% static 'images/1.jpg' %}" alt="Your Image" class="bg-image">
-    <a href="/registration" class="image_static">
-        <img src="{% static 'images/cabinet.png' %}" alt="Your Image" >
-    </a>
+  <div class="image-container">
+    <img src="{% static 'images/1page.png' %}" alt="Your Image" onclick="scrollToBottom()">
+  </div>
+  <img src="{% static 'images/2.png' %}" alt="Your Image" class="image">
+  <a href="/write_us" class="image_write">
+    <img src="{% static 'images/write_us.png' %}" alt="Your Image">
+  </a>
+  <img src="{% static 'images/1.jpg' %}" alt="Your Image" class="bg-image">
+  <a href="/registration" class="image_static">
+    <img src="{% static 'images/cabinet.png' %}" alt="Your Image" >
+  </a>
+<script>
+  function scrollToBottom() {
+    let currentScroll = window.pageYOffset;
+    let targetScroll = currentScroll + 1000;
+    let distance = targetScroll - currentScroll;
+    let duration = distance / 200; // увеличиваем время прокрутки для более медленной прокрутки
+    window.scrollTo({
+      top: targetScroll,
+      behavior: 'smooth',
+      duration: duration
+    });
+  }
+</script>
 </body>
 </html>
