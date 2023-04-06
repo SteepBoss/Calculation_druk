@@ -9,6 +9,7 @@
             margin: 0;
             position: relative;
         }
+
         .bg-image {
             position: absolute;
             top: 0;
@@ -16,18 +17,37 @@
             width: 100%;
             height: auto;
             z-index: -1;
-            filter: brightness(40%); # Затемнение фона
         }
-        img:first-child {
+
+        .image {
             position: fixed;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
         }
+
+        .image_static {
+            position: absolute;
+            top: 650px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .image_write {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+        }
     </style>
 </head>
 <body>
-    <img src="{% static 'images/лого1.png' %}" alt="Your Image1">
-    <img src="{% static 'images/14.jpg' %}" alt="Your Image" class="bg-image">
+    <img src="{% static 'images/2.png' %}" alt="Your Image" class="image">
+    <a href="/write_us" class="image_write">
+        <img src="{% static 'images/write_us.png' %}" alt="Your Image">
+    </a>
+    <img src="{% static 'images/1.jpg' %}" alt="Your Image" class="bg-image">
+    <a href="/registration" class="image_static">
+    <img src="{% static 'images/cabinet.png' %}" alt="Your Image" >
+    </a>
 </body>
 </html>
