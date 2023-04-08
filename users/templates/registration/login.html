@@ -4,10 +4,28 @@
   {% if form.errors %}
    <p class="all_text">Your username and password didn't match. Please try again.</p>
   {% endif %}
-  <form method="post" action="{% url 'users:login' %}" class="login-form"style="position: relative; top: 100px; left: 40%;">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button name="submit">log in</button>
-    <input type="hidden" name="next" value="{% url 'Druk_site_app:index' %}" />
-  </form>
+  <div class="login-form-wrapper" style="position: fixed; top: 100px; left: 43%; display: flex;
+    justify-content: center; align-items: center; height: 180px; width: 270px; background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;">
+      <form method="post" action="{% url 'users:login' %}" class="login-form" style="width: 60%; display: flex;
+       flex-direction: column; justify-content: center; align-items: center;">
+        {% csrf_token %}
+
+        <label for="{{ form.username.id_for_label }}" class="all_text" style="color: #fff; text-align: center;">Логін :</label>
+        {{ form.username }}
+
+        <br><!-- добавляем пробел между логином и паролем -->
+        <label for="{{ form.password.id_for_label }}" class="all_text" style="color: #fff; text-align: center;">Пароль :</label>
+        {{ form.password }}
+
+        <br><!-- добавляем пробел между полем пароля и кнопкой -->
+        <button name="submit" class="all_text black-button" style="background-color: black; color: #fff; border-radius: 10px;">Вхід в кабінет</button>
+        <input type="hidden" name="next" value="{% url 'Druk_site_app:index' %}" />
+        <button type="button" onclick="location.href='{% url 'users:register' %}';" class="all_text black-button"
+                style="background-color: black; color: #fff; border-radius: 10px;">Реестрація</button>
+
+
+
+      </form>
+    </div>
 {% endblock content %}

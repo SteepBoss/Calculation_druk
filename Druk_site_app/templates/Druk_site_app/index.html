@@ -37,20 +37,25 @@
   </style>
 </head>
 <body>
-  <a href="{% url 'Druk_site_app:index' %}">
   {% if user.is_authenticated %}
-    <p class="all_text">Hello, {{ user.username }}.</p>
-    <p class="all_text"><a href="{% url 'users:logout' %}">log out</a></p>
+  <div
+
+    id="user-info" style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 100;
+        background-color: rgba(0,0,0,0.5); padding: 10px; border-radius: 10px;">
+    <a href="#" style="color: #fff; text-decoration: none;">Ви зайшли як, {{ user.username }}</a>
+      <span style="color: #fff; margin: 0 10px;">│</span>
+    <a href="{% url 'users:logout' %}" style="color: #fff; text-decoration: none;">Вийти з кабінету</a>
+
+  </div>
   {% else %}
         <a href="{% url 'users:login' %}" style="position: absolute; top: 650px;
       left: 50%; transform: translateX(-50%); transition:transform 0.3s ease-in-out;"
       onmouseover="this.style.transform = 'translateX(-50%) scale(1.1)';"
       onmouseout="this.style.transform = 'translateX(-50%)';">
       <img src="{% static 'images/cabinet.png' %}" alt="Your Image"> </a>
-
   {% endif %}
-  <img src="{% static 'images/1page.png' %}" alt="Your Image" style="position: absolute; top: 900px; left: 50%; max-width:
-     100%; max-height: 100%; transform: translate(-50%, -50%);"
+        <img src="{% static 'images/1page.png' %}" alt="Your Image" style="position: absolute; top: 900px; left: 50%;
+     max-width: 100%; max-height: 100%; transform: translate(-50%, -50%);"
      onmouseover="this.style.transform = 'translate(-50%, -50%) scale(1.2)';"
      onmouseout="this.style.transform = 'translate(-50%, -50%) scale(1)';"
      onclick="scrollToBottom()">
@@ -67,16 +72,26 @@
       {% block content %}
       {% endblock content %}
 <script>
+  function moveUserInfo() {
+    const userInfo = document.querySelector('#user-info');
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    userInfo.style.top = `${scrollTop}px`;
+    userInfo.style.position = 'absolute';
+    userInfo.style.left = '50%';
+    userInfo.style.transform = 'translateX(-50%)';
+  }
+
   function scrollToBottom() {
-    let currentScroll = 0;
-    let targetScroll = currentScroll + 1000;
-    let distance = targetScroll - currentScroll;
-    let duration = distance / 1000;
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    const targetScroll = currentScroll + 1000;
     window.scrollTo({
       top: targetScroll,
       behavior: 'smooth',
-      duration: duration
     });
+  }
+
+  if (document.querySelector('#user-info')) {
+    window.addEventListener('scroll', moveUserInfo);
   }
 </script>
 </body>
