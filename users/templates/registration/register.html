@@ -1,9 +1,14 @@
 {% extends "Druk_site_app/index.html" %}
 {% block content %}
-    <form method="post" action="{% url 'users:register' %}">
+    <div class="form-wrapper">
+      <form method="post" action="{% url 'users:register' %}" class="register-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button name="submit">register</button>
+        <button type="submit">Заереструватися</button>
+        <button onclick="window.location.href='{% url 'Druk_site_app:index' %}'" class="close-button">Закрити</button>
+
         <input type="hidden" name="next" value="{% url 'Druk_site_app:index' %}" />
-    </form>
+      </form>
+    </div>
+
 {% endblock content %}
